@@ -7,8 +7,9 @@ function dependency(dep1, dep2) {
   }
 
   function cosas() {
+    debugger;
     // console.log(dep1);
-    dep1.dalma();
+    dep1.dalma('jr');
     dep2.yanina();
   }
 }

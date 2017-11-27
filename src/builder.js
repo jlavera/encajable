@@ -64,11 +64,14 @@ function Container(_dependencies) {
     // If it should be resolved eagerly
     if (dep.isEager) {
       return dep.resolved = dep.module.bind.apply(dep.module, [null].concat(dep.dependencies.map(self.get)))();
-    } else {
-      dep.unresolved = dep.resolved = dep.module.bind.apply(dep.module, [null].concat(dep.dependencies.map(self.get)));
     }
 
-    return wrapperBuilder.buildWrapperFor(dep.module);
+    const module = dep.module.bind.apply(dep.module, [null].concat(dep.dependencies.map(self.get)));
+    return dep.resolved = wrapperBuilder.buildWrapperFor(self, alias, module);
+  }
+
+  Container.prototype.unwrap = function (alias) {
+    dependencies[alias].resolved = dependencies[alias].resolved.module;
   }
 
   Container.prototype.getDependencies = function () {
